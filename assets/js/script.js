@@ -5,6 +5,8 @@ $(document).ready(function () {
   const ElemForm = $("#search-form");
   const Elemhistory = $("#history");
   const ElemInput = $("#search-input");
+  const ElemToday = $("#today");
+  const ElemForecast = $("#forecast");
 
   // Function to render the buttons on the history section.
   // If called with parameter, it render just a new button
@@ -49,10 +51,36 @@ $(document).ready(function () {
 
   // function to call the API with the city passed to the function, and render the information on the today and forecast elements.
   function callAPI(city) {
+    // fetch location to LAT and LONG here
+    //
+    //
+
+    // fetch today weather here
+    //
+    // 
+    ElemToday.empty();
+    const today = dayjs().format("D/M/YYYY");
     console.log(`call API ${city}`);
+    const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-2'>");
+    ElemH2Day.text(`${city} (${today}) icon`);
+    const temp = $('<p class="ps-2">').text(`Temp: ${city} °C`);
+    const wind = $('<p class="ps-2">').text(`Wind: ${city} KPH`);
+    const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${city}%`);
+    ElemToday.append(ElemH2Day, temp, wind, humidity);
+    // fetch forecast weather here
+    //
+    //
+    ElemForecast.empty();
+    const ElemH2Fore = $("<h2 class='ps-2 fs-4 fw-bold'>").text("5-Day Forecast:");
+    const ElemDivFore = $("<div class='d-flex justify-content-between'>");
+    const ElemDay1 = $("<div class='forecast'>").append($("<p class='ps-2 fw-bold'>").text("15/01/2024"));
 
-
-
+    const ElemDay2 = $("<div class='forecast'>").text("Day-2");
+    const ElemDay3 = $("<div class='forecast'>").text("Day-3");
+    const ElemDay4 = $("<div class='forecast'>").text("Day-4");
+    const ElemDay5 = $("<div class='forecast'>").text("Day-5");
+    ElemDivFore.append(ElemDay1, ElemDay2, ElemDay3, ElemDay4, ElemDay5);
+    ElemForecast.append(ElemH2Fore, ElemDivFore);
 
   }
 
@@ -77,7 +105,7 @@ $(document).ready(function () {
   // listening the "submit" event, and "click" event on the elements with the class ".btn"
   Elemhistory.on("click", ".btn", searchByCity);
   ElemForm.on("submit", searchByCity);
-  
+
   // render the cities on the localStorage when the page is loaded
   renderButtons();
 

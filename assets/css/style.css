@@ -8,5 +8,9 @@
   font-size: 22px;
 }
 
-
+.forecast {
+  width: 120px;
+  background-color:#3b3e69;
+  color: white;
+}
 
