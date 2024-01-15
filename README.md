@@ -19,7 +19,7 @@ Here are the requirements:
   - The humidity
 - When a user clicks on a city in the search history they are again presented with current and future conditions for that city.
 <br>
-
+![screenshot](https://github.com/IgorTraspadini/Weather-Dashboard-ICT/assets/126266157/59a2bd8f-5564-4934-829c-3ea3b2ccf7ce)
 
 ## Language
 - HTML5
