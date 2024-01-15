@@ -7,6 +7,7 @@ $(document).ready(function () {
   const ElemInput = $("#search-input");
   const ElemToday = $("#today");
   const ElemForecast = $("#forecast");
+  const APIKey = "2f52d4fdc5a729796a58922bcf59f241";
 
   // Function to render the buttons on the history section.
   // If called with parameter, it render just a new button
@@ -51,22 +52,44 @@ $(document).ready(function () {
 
   // function to call the API with the city passed to the function, and render the information on the today and forecast elements.
   function callAPI(city) {
-    // fetch location to LAT and LONG here
+    // fetch location to LAT and LONG, and today weather.
     //
-    //
+    const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`;
+    fetch(queryURL)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        const newQueryUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&appid=${APIKey}`
+        fetch(newQueryUrl)
+        .then(function (response){
+          return response.json();
+        })
+        .then(function (data){
+          ElemToday.empty();
+          const today = dayjs().format("D/M/YYYY");
+          console.log(data);
+          const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-3 fw-bold'>");
+          const ico = $("<img>").attr("src",`https://openweathermap.org/img/w/${data.weather[0].icon}.png`);
+          ElemH2Day.text(`${city} (${today})`);
+          ElemH2Day.append(ico);                    
+          const temp = $('<p class="ps-2">').text(`Temp: ${parseInt(data.main.temp - 273.15)} °C`);
+          const wind = $('<p class="ps-2">').text(`Wind: ${data.wind.speed}  KPH`);
+          const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${data.main.humidity}%`);
+          ElemToday.append(ElemH2Day, temp, wind, humidity);
+        })
+      })
 
-    // fetch today weather here
-    //
-    // 
-    ElemToday.empty();
+/*     ElemToday.empty();
     const today = dayjs().format("D/M/YYYY");
-    console.log(`call API ${city}`);
+    console.log(`call API ${data}`);
     const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-3 fw-bold'>");
     ElemH2Day.text(`${city} (${today}) icon`);
     const temp = $('<p class="ps-2">').text(`Temp: ${city} °C`);
     const wind = $('<p class="ps-2">').text(`Wind: ${city} KPH`);
     const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${city}%`);
     ElemToday.append(ElemH2Day, temp, wind, humidity);
+ */
     // fetch forecast weather here
     //
     //
@@ -80,16 +103,9 @@ $(document).ready(function () {
       const wind = $('<p class="ps-2">').text(`Wind: ${city} KPH`);
       const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${city}%`);
       ElemDay.append(ico, temp, wind, humidity);
-      ElemDivFore.append(ElemDay);  
+      ElemDivFore.append(ElemDay);
     }
-/*     const ElemDay1 = $("<div class='forecast'>").append($("<p class='ps-2 fw-bold'>").text("15/01/2024"));
-    const ElemDay2 = $("<div class='forecast'>").text("Day-2");
-    const ElemDay3 = $("<div class='forecast'>").text("Day-3");
-    const ElemDay4 = $("<div class='forecast'>").text("Day-4");
-    const ElemDay5 = $("<div class='forecast'>").text("Day-5");
-    ElemDivFore.append(ElemDay1, ElemDay2, ElemDay3, ElemDay4, ElemDay5);
- */    ElemForecast.append(ElemH2Fore, ElemDivFore);
-
+    ElemForecast.append(ElemH2Fore, ElemDivFore);
   }
 
   // function to perform especific actions regards the listening event.
