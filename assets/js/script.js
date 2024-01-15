@@ -61,7 +61,7 @@ $(document).ready(function () {
     ElemToday.empty();
     const today = dayjs().format("D/M/YYYY");
     console.log(`call API ${city}`);
-    const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-2'>");
+    const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-3 fw-bold'>");
     ElemH2Day.text(`${city} (${today}) icon`);
     const temp = $('<p class="ps-2">').text(`Temp: ${city} °C`);
     const wind = $('<p class="ps-2">').text(`Wind: ${city} KPH`);
@@ -71,16 +71,24 @@ $(document).ready(function () {
     //
     //
     ElemForecast.empty();
-    const ElemH2Fore = $("<h2 class='ps-2 fs-4 fw-bold'>").text("5-Day Forecast:");
     const ElemDivFore = $("<div class='d-flex justify-content-between'>");
-    const ElemDay1 = $("<div class='forecast'>").append($("<p class='ps-2 fw-bold'>").text("15/01/2024"));
-
+    const ElemH2Fore = $("<h2 class='ps-2 fs-4 fw-bold'>").text("5-Day Forecast:");
+    for (let i = 1; i < 6; i++) {
+      const ElemDay = $("<div class='forecast'>").append($("<p class='ps-2 fw-bold'>").text("15/01/2024"));
+      const ico = $('<p class="ps-2">').text("ico");
+      const temp = $('<p class="ps-2">').text(`Temp: ${city} °C`);
+      const wind = $('<p class="ps-2">').text(`Wind: ${city} KPH`);
+      const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${city}%`);
+      ElemDay.append(ico, temp, wind, humidity);
+      ElemDivFore.append(ElemDay);  
+    }
+/*     const ElemDay1 = $("<div class='forecast'>").append($("<p class='ps-2 fw-bold'>").text("15/01/2024"));
     const ElemDay2 = $("<div class='forecast'>").text("Day-2");
     const ElemDay3 = $("<div class='forecast'>").text("Day-3");
     const ElemDay4 = $("<div class='forecast'>").text("Day-4");
     const ElemDay5 = $("<div class='forecast'>").text("Day-5");
     ElemDivFore.append(ElemDay1, ElemDay2, ElemDay3, ElemDay4, ElemDay5);
-    ElemForecast.append(ElemH2Fore, ElemDivFore);
+ */    ElemForecast.append(ElemH2Fore, ElemDivFore);
 
   }
 

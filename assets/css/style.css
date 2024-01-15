@@ -1,7 +1,7 @@
 
-.weather-header {
+.weather-header, 
+.weather-footer {
   background-image: linear-gradient(to right bottom,#7893c9,#030746);
-
 }
 
 .form-label {
@@ -9,8 +9,19 @@
 }
 
 .forecast {
-  width: 120px;
+  width: 170px;
   background-color:#3b3e69;
   color: white;
 }
 
+.list-group {
+  overflow-y: scroll;
+  max-height: 300px;
+}
+
+footer {
+  position: fixed;
+  height: 40px;
+  bottom: 0;
+  width: 100%;
+}
