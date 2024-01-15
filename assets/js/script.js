@@ -53,7 +53,7 @@ $(document).ready(function () {
   // function to call the API with the city passed to the function, and render the information on the today and forecast elements.
   function callAPI(city) {
     // fetch location to LAT and LONG, and today weather.
-    const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`;
+    const queryURL = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`;
     fetch(queryURL)
       .then(function (response) {
         return response.json();
