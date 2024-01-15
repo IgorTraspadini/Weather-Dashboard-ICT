@@ -53,7 +53,6 @@ $(document).ready(function () {
   // function to call the API with the city passed to the function, and render the information on the today and forecast elements.
   function callAPI(city) {
     // fetch location to LAT and LONG, and today weather.
-    //
     const queryURL = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${APIKey}`;
     fetch(queryURL)
       .then(function (response) {
@@ -62,50 +61,59 @@ $(document).ready(function () {
       .then(function (data) {
         const newQueryUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${data[0].lat}&lon=${data[0].lon}&appid=${APIKey}`
         fetch(newQueryUrl)
-        .then(function (response){
-          return response.json();
-        })
-        .then(function (data){
-          ElemToday.empty();
-          const today = dayjs().format("D/M/YYYY");
-          console.log(data);
-          const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-3 fw-bold'>");
-          const ico = $("<img>").attr("src",`https://openweathermap.org/img/w/${data.weather[0].icon}.png`);
-          ElemH2Day.text(`${city} (${today})`);
-          ElemH2Day.append(ico);                    
-          const temp = $('<p class="ps-2">').text(`Temp: ${parseInt(data.main.temp - 273.15)} °C`);
-          const wind = $('<p class="ps-2">').text(`Wind: ${data.wind.speed}  KPH`);
-          const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${data.main.humidity}%`);
-          ElemToday.append(ElemH2Day, temp, wind, humidity);
-        })
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            ElemToday.empty();
+            const today = dayjs().format("D/M/YYYY");
+            const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-3 fw-bold'>");
+            const ico = $("<img>").attr("src", `https://openweathermap.org/img/w/${data.weather[0].icon}.png`);
+            ElemH2Day.text(`${city} (${today})`);
+            ElemH2Day.append(ico);
+            const temp = $('<p class="ps-2">').text(`Temp: ${parseInt(data.main.temp - 273.15)} °C`);
+            const wind = $('<p class="ps-2">').text(`Wind: ${data.wind.speed}  KPH`);
+            const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${data.main.humidity}%`);
+            ElemToday.append(ElemH2Day, temp, wind, humidity);
+          })
       })
 
-/*     ElemToday.empty();
-    const today = dayjs().format("D/M/YYYY");
-    console.log(`call API ${data}`);
-    const ElemH2Day = $("<h2 class='mt-1 ps-2 fs-3 fw-bold'>");
-    ElemH2Day.text(`${city} (${today}) icon`);
-    const temp = $('<p class="ps-2">').text(`Temp: ${city} °C`);
-    const wind = $('<p class="ps-2">').text(`Wind: ${city} KPH`);
-    const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${city}%`);
-    ElemToday.append(ElemH2Day, temp, wind, humidity);
- */
     // fetch forecast weather here
-    //
-    //
-    ElemForecast.empty();
-    const ElemDivFore = $("<div class='d-flex justify-content-between'>");
-    const ElemH2Fore = $("<h2 class='ps-2 fs-4 fw-bold'>").text("5-Day Forecast:");
-    for (let i = 1; i < 6; i++) {
-      const ElemDay = $("<div class='forecast'>").append($("<p class='ps-2 fw-bold'>").text("15/01/2024"));
-      const ico = $('<p class="ps-2">').text("ico");
-      const temp = $('<p class="ps-2">').text(`Temp: ${city} °C`);
-      const wind = $('<p class="ps-2">').text(`Wind: ${city} KPH`);
-      const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${city}%`);
-      ElemDay.append(ico, temp, wind, humidity);
-      ElemDivFore.append(ElemDay);
-    }
-    ElemForecast.append(ElemH2Fore, ElemDivFore);
+    fetch(queryURL)
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (data) {
+        const newQueryUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${data[0].lat}&lon=${data[0].lon}&appid=${APIKey}`
+        fetch(newQueryUrl)
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            ElemForecast.empty();
+            const ElemDivFore = $("<div class='d-flex justify-content-between'>");
+            const ElemH2Fore = $("<h2 class='ps-2 fs-4 fw-bold'>").text("5-Day Forecast:");
+            for (let i = 1; i < 6; i++) {
+              const dayForecast = dayjs().add(i, 'day').format("D/M/YYYY");
+              // Looking for the forecast date into the JSON data.list
+              for (let j = 0; j < data.list.length; j++) {
+                const dayFore5 = dayjs.unix(data.list[j].dt).format("D/M/YYYY");
+                // Take the first occurrence of the forecast date, render the elements and go for other forecast date.
+                if (dayFore5 === dayForecast) {
+                  const ElemDay = $("<div class='forecast'>").append($("<p class='ps-2 fw-bold'>").text(dayForecast));
+                  const ico = $("<img class='ps-2'>").attr("src", `https://openweathermap.org/img/w/${data.list[j].weather[0].icon}.png`);
+                  const temp = $('<p class="ps-2">').text(`Temp: ${parseInt(data.list[j].main.temp - 273.15)} °C`);
+                  const wind = $('<p class="ps-2">').text(`Wind: ${data.list[j].wind.speed} KPH`);
+                  const humidity = $('<p class="ps-2 pb-2">').text(`Humidity: ${data.list[j].main.humidity}%`);
+                  ElemDay.append(ico, temp, wind, humidity);
+                  ElemDivFore.append(ElemDay);
+                  break;
+                }
+              }
+            }
+            ElemForecast.append(ElemH2Fore, ElemDivFore);
+          })
+      })
   }
 
   // function to perform especific actions regards the listening event.
@@ -115,13 +123,11 @@ $(document).ready(function () {
     e.preventDefault();
     if (e.type === "submit") {
       if (ElemInput.val() !== "") {
-        console.log(e.type);
         callAPI(ElemInput.val());
         addSHistory(ElemInput.val());
       }
     }
     else {
-      console.log(e.type);
       callAPI($(this).attr("data-city"));
     }
   }
