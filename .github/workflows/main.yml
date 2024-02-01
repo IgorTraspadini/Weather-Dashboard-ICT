@@ -19,6 +19,7 @@ jobs:
       run: |
         npm install
         npm run-script build
+        echo ${{ secrets.APIKey }}
       env:
         APIKey: ${{ secrets.APIKey }}
 
