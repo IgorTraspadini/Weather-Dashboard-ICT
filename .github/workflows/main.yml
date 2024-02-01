@@ -1,0 +1,12 @@
+jobs:
+  trying-to-use-environment-secrets:
+    runs-on: ubuntu-latest
+    environment: test-env #<---The only difference we need to specify what environment to use for environment secrets
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Store variables
+        run: |
+          echo ${{ secrets.APIKey }}
+          echo "APIKey=${{ secrets.APIKey }}"
