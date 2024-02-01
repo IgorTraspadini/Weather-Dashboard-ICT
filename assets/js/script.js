@@ -8,7 +8,7 @@ $(document).ready(function () {
   const ElemToday = $("#today");
   const ElemForecast = $("#forecast");
   const APIKey = "2f52d4fdc5a729796a58922bcf59f241";
-  const pr = process.env.APIKey;
+  const pr = process.env.API;
   console.log(pr);
   console.log(process.env);
 
