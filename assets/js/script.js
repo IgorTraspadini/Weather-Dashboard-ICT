@@ -8,6 +8,7 @@ $(document).ready(function () {
   const ElemToday = $("#today");
   const ElemForecast = $("#forecast");
   const APIKey = "2f52d4fdc5a729796a58922bcf59f241";
+  console.log(process.env.APIKey);
 
   // Function to render the buttons on the history section.
   // If called with parameter, it render just a new button
