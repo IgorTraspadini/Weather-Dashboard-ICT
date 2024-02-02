@@ -1,4 +1,4 @@
-name: CI
+name: Env-Variable
 
 on:
   workflow_dispatch:
@@ -7,4 +7,7 @@ jobs:
   display:
     runs-on: ubuntu-latest
     steps:
-       - run: echo ${{ secrets.APIKEY }}
+       - run: |
+              echo ${{ secrets.APIKEY }}
+              echo ${{ runner.os }}
+              echo ${{ GITHUB_ENV }}
