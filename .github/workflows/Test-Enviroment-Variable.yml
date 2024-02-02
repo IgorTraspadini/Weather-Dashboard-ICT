@@ -10,4 +10,4 @@ jobs:
        - run: |
               echo ${{ secrets.APIKEY }}
               echo ${{ runner.os }}
-              echo ${{ GITHUB_ENV }}
+              echo ${{ vars.API }}
