@@ -1,0 +1,10 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  display:
+    runs-on: ubuntu-latest
+    steps:
+       - run: echo ${{ secrets.APIKEY }}
