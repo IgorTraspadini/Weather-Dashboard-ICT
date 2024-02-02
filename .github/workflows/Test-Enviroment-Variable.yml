@@ -6,6 +6,7 @@ on:
 jobs:
   display:
     runs-on: ubuntu-latest
+    environment: github-pages
     steps:
        - run: |
               echo ${{ secrets.APIKEY }}
